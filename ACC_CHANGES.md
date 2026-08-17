@@ -63,11 +63,8 @@ upstream merge by whoever resolves the conflict.
 
 | # | File(s) | Change | Why | Upstreamable? | Added |
 |---|---|---|---|---|---|
-| 1 | `modules/local/sage/...` | *(candidate)* make `-run_tinc` optional | TINC loads ~100–180 k variants/chr on top of gnomAD/PON caches and drove the SAGE_SOMATIC OOM; it is currently hardcoded, so it can only be disabled with a local copy | Likely yes — worth a PR | not yet applied |
-| 2 | `modules/.../cram_stats` or equivalent | replace `samtools flagstat --reference` with `--input-fmt-option reference=` | `--reference` is not a valid flagstat option; it failed 3× in 15 s, aborted the session, and truncated a 31.5 GB normal CRAM at ~10.5 GB with a complete `.crai` on top | Yes — this is a plain bug | not yet applied |
-| 3 | QC processes | `errorStrategy 'ignore'` on non-load-bearing QC steps | A failing stats step should not abort a 5 h alignment | Maybe | not yet applied |
-| 4 | `publishDir` directives on large outputs | `mode: 'link', overwrite: true` | `copy` of a large REDUX output produced a 4 h "Waiting for file transfers" stall, and a partial copy is indistinguishable from a complete one | Maybe | not yet applied |
-| 5 | | validate the published artifact, not just the task exit code | The truncation above exited 0 | Maybe | not yet applied |
+| 1 | Example `modules/local/sage/...` | *(candidate)* make `-run_tinc` optional | TINC loads ~100–180 k variants/chr on top of gnomAD/PON caches and drove the SAGE_SOMATIC OOM; it is currently hardcoded, so it can only be disabled with a local copy | Likely yes — worth a PR | not yet applied |
+
 
 ## What is deliberately NOT changed
 
@@ -80,13 +77,6 @@ upstream merge by whoever resolves the conflict.
   Changing `conf/base.config` here would be invisible to anyone reading our config, and would be
   silently overwritten on the next upstream merge.
 
-## Open gap
-
-There's no single doc yet that captures *why* each process was included or excluded from the MVP
-port — only this file's deviation table and the "deliberately not changed" notes above. If a
-fuller writeup is needed later, `pipeline/README.md` in `oncoanalyser-lsf-docs` is the closest
-existing fit (it already covers the fork/docs-repo split); a dedicated `pipeline/fork-strategy.md`
-there is the likely next step, not yet created.
 
 ## Related
 
